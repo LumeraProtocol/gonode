@@ -67,6 +67,13 @@ gen-proto:
 	cd ./proto/walletnode/protobuf && protoc --go_out=.. --go-grpc_out=.. --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative register_collection_wn.proto
 	cd ./proto/walletnode/protobuf && protoc --go_out=.. --go-grpc_out=.. --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative register_nft_wn.proto
 	cd ./proto/walletnode/protobuf && protoc --go_out=.. --go-grpc_out=.. --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative common_wn.proto
+	cd ./proto/action/protobuf && protoc --go_out=.. --go-grpc_out=.. --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative common_wn.proto
+
+	cd  ./proto/lumera/protobuf && protoc --go_out=../../../gen/lumera --go-grpc_out=../../../gen/lumera --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative action_service.proto && cd ../../../
+	cd  ./proto/lumera/protobuf && protoc --go_out=../../../gen/lumera --go-grpc_out=../../../gen/lumera --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative supernode_service.proto && cd ../../../
+
+	cd  ./proto/action/protobuf && protoc --go_out=../../../gen/action --go-grpc_out=../../../gen/action --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative service.proto
+
 integration-tests:
 	cd ./integration && INTEGRATION_TEST_ENV=true go test -v --timeout=20m ./...
 build-linux:
@@ -91,3 +98,6 @@ release:
 
 goa-gen:
 	cd ./walletnode/api && goa gen github.com/pastelnetwork/gonode/walletnode/api/design
+
+action-gen:
+	cd ./action/swagger/ && openapi-generator generate -i api.yml -g go-server -p sourceFolder=api,outputAsLibrary=true,onlyInterfaces=true,packageName=api -o gen

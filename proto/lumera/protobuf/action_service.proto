@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package lumera;
+
+option go_package = "github.com/pastelnetwork/gonode/proto/lumera";
+
+// Service definition
+service ActionService {
+  // Retrieves an action by ID
+  rpc GetAction(GetActionRequest) returns (GetActionResponse);
+}
+
+// Request and response messages
+message GetActionRequest {
+  string action_id = 1;
+}
+
+// Enum for action states
+enum ActionState {
+  UNKNOWN = 0;
+  PENDING = 1;
+  COMPLETED = 2;
+  FAILED = 3;
+}
+
+// Cascade message
+message Cascade {
+  string file_name = 1;
+  int32 rq_ic = 2;
+  int32 rq_max = 3;
+}
+
+// Sense message
+message Sense {
+  int32 dd_and_fingerprints_ic = 1;
+  int32 dd_and_fingerprints_max = 2;
+  int32 collection_id = 3;
+  int32 group_id = 4;
+}
+
+// Metadata message
+message Metadata {
+  string datahash = 1;
+  Cascade cascade = 2;
+  Sense sense = 3;
+}
+
+// ActionResponse message
+message GetActionResponse {
+  string creator = 1;
+  string action_id = 2;
+  Metadata metadata = 3;
+  double price = 4;
+  int64 expiration_time = 5;
+  ActionState state = 6;
+  int64 block_height = 7;
+}

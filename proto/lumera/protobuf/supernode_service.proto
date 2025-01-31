@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package lumera;
+
+option go_package = "github.com/pastelnetwork/gonode/proto/lumera";
+
+service SupernodeService {
+  rpc GetTopSupernodesForBlock(GetTopSupernodesForBlockRequest) returns (GetTopSupernodesForBlockResponse);
+}
+
+// Request message for GetTopSupernodesForBlock
+message GetTopSupernodesForBlockRequest {
+  int64 block_height = 1;
+}
+
+// Response message for GetTopSupernodesForBlock
+message GetTopSupernodesForBlockResponse {
+  repeated Supernode supernodes = 1;
+}
+
+message Supernode {
+  string node_id = 1;
+  int64 block_height = 2;
+}
